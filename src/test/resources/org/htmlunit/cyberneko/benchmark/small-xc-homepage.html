@@ -1,0 +1,1426 @@
+
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+        <meta charset="utf-8">
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+
+        <title>Xceptance - The Software Testing Experts</title>
+
+
+
+            <meta name="description" content="Xceptance, the software testing experts.">
+
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+            <meta name="robots" content="index,follow" />
+
+
+        <!-- <base href="/en/"> -->
+
+
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="https://www.xceptance.com/en/feed.xml">
+
+        <!-- link to alternate version language wise -->
+
+            <link rel="alternate" hreflang="de" href="/de/" />
+
+
+        <!-- Google Fonts -->
+        <link href="/css/roboto.css?1698419661" rel="stylesheet">
+        <link href="/css/font-awesome.min.css?1698419661" rel="stylesheet">
+        <link href="/css/xceptance.css?1698419661" rel="stylesheet" media="all">
+
+        <script src="/js/jquery-1.11.1.min.js"></script>
+        <script src="/js/bootstrap.min.js?1698419661"></script>
+
+        <script src="/js/jquery.scrollTo-2.1.2.min.js"></script>
+        <script src="/js/jquery.localScroll-2.0.0.min.js"></script>
+        <script src="/js/jquery.cookie-1.4.1.min.js"></script>
+
+        <script type="text/javascript">
+            $( window ).load(
+                function() {
+
+                    /* important to avoid missed scrolls when not on the
+                       page but coming in from with a hash */
+                    $('body.local-scroll').scrollTo( 0 );
+                    $.scrollTo( 0 );
+
+                    $('body.local-scroll').localScroll({
+                        duration: 500,
+                        easing:"swing",
+                        hash: true,
+                        offset: {top: -90},
+                        queue:false
+                    });
+
+                    $.localScroll.hash({
+                        queue:false,
+                        offset: {top: -90}
+                    });
+                });
+        </script>
+
+        <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "Corporation",
+            "url": "https://www.xceptance.com/",
+            "name": "Xceptance",
+            "legalName": "Xceptance Software Technologies GmbH",
+            "brand": {
+                "@type": "Brand",
+                "name": "Xceptance"
+            },
+            "sameAs": [
+                "https://www.xing.com/companies/xceptancesoftwaretechnologiesgmbh",
+                "https://www.linkedin.com/company/xceptance/",
+                "https://blog.xceptance.com/",
+                "https://twitter.com/Xceptance"
+            ],
+            "logo": "https://www.xceptance.com/resources/press/xceptance-logo-transparent-1970x459.png",
+            "contactPoint": [{
+                "@type": "ContactPoint",
+                "telephone": "+49-3641-376300",
+                "contactType": "customer service"
+            }],
+
+            "location": {
+                "@type": "PostalAddress",
+                "streetAddress": "Leutragraben 2-4",
+                "addressLocality": "Jena",
+                "addressRegion": "Thüringen",
+                "postalCode": "07743",
+                "addressCountry": "Germany"
+            },
+
+            "department" : [
+            {
+                "@type": "Corporation",
+                "url": "https://www.xceptance.com/de",
+                "name": "Xceptance GmbH",
+                "legalName": "Xceptance Software Technologies GmbH",
+                "email": "kontakt(at)xceptance.de",
+                "address": {
+                   "@type": "PostalAddress",
+                   "streetAddress": "Leutragraben 2-4",
+                   "addressLocality": "Jena",
+                   "addressRegion": "Thüringen",
+                   "postalCode": "07743",
+                   "addressCountry": "Germany"
+                 },
+                 "vatID": "DE 235 305 262"
+            },
+            {
+                "@type": "Corporation",
+                "url": "https://www.xceptance.com/en",
+                "name": "Xceptance IOc.",
+                "legalName": "Xceptance Software Technologies Inc.",
+                "email": "contact(at)xceptance.com",
+                 "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "One Broadway",
+                    "addressLocality": "Cambridge",
+                    "addressRegion": "MA",
+                    "postalCode": "02142",
+                    "addressCountry": "United States"
+                 },
+                 "contactPoint": [{
+                     "@type": "ContactPoint",
+                     "telephone": "+1-617-225-4335",
+                     "contactType": "customer service",
+                     "areaServed" : ["US", "CA"]
+                 }]
+            }
+            ]
+        }
+        </script>
+    </head>
+
+
+    <body class="homepage local-scroll" id="page">
+        <div id="privacy-message" class="row" style="display: none;">
+    <div class="container">
+        <div id="inner" class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 alert alert-info alert-dismissable">
+            <button type="button" class="close" onclick="$('#privacy-message').hide();">&times;</button>
+
+            <p class="explaination">We use cookies. For more information please read <a href="/en/contact/privacy.html">our privacy section</a>.</p>
+
+            <p class="explaination">We also use analytics. By clicking <em>Opt-Out</em>, we will place a non-personalized cookie on your machine that indicates that you don‘t wish to be tracked.</p>
+
+            <p class="text-right">
+                <button type="button" class="btn-link" onclick="$.cookie('privacy', 'true', { expires: 7, path: '/en' }); $('#privacy-message').hide();">Opt-Out</button>
+                <button type="button" class="btn btn-primary" onclick="$('#privacy-message').hide(); reportAnalytics();">I understand</button>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+                <div id="top-scroller"><a href="/en/#page"></a></div>
+
+
+        <!-- container centers things -->
+        <div id="navigation" class="navbar-fixed-top">
+            <div class="container">
+
+
+
+
+
+<nav class="navbar navbar-default" role="navigation">
+
+        <div class="navbar-brand navbar-left">
+            <a rel="home" title="Home" href="/en/">
+            <img src="/images/xceptance-logo-transparent-202px.png" title="Xceptance company logo" alt="Xceptance company logo" />
+            </a>
+        </div>
+
+        <div class="navbar-header navbar-right">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="collapse navbar-collapse">
+
+
+    <ul class="nav navbar-nav">
+
+
+
+
+
+
+
+
+                        <li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <a href="/en/services/">Services</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</li>
+
+
+
+
+
+
+
+
+
+
+
+                        <li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <a href="/en/xlt/">XLT</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</li>
+
+
+
+
+
+
+
+
+
+
+
+                        <li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <a href="/en/company/">Company</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</li>
+
+
+
+
+
+
+
+
+
+
+
+                        <li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <a href="/en/news/">News</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</li>
+
+
+
+
+
+
+
+
+
+
+
+                        <li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <a href="/en/careers/">Careers</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</li>
+
+
+
+
+
+
+
+
+
+
+
+                        <li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <a href="/en/contact/">Contact</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</li>
+
+
+
+
+
+
+
+
+
+
+
+                        <li><a href="https://blog.xceptance.com/">Blog</a></li>
+
+
+
+
+
+
+    </ul>
+
+
+        <div id="language-switcher">
+
+
+                <span class="language"><a href="/de/">DE</a></span>
+
+        </div>
+    </div> <!-- from collapse div -->
+    </div> <!-- from navbar-header -->
+
+
+</nav>
+
+            </div>
+        </div>
+
+        <header id="teaser">
+            <div class="container">
+                <!-- Carousel ================================================== -->
+<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="7000">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+
+    <div class="carousel-inner">
+        <div class="item active" id="first">
+            <!-- <img src="/images/teasers/carousels/x.png" alt="A red Xceptance X" title="The Single Red X"> -->
+            <div class="carousel-caption">
+                <h1>We Test Software.<br/>Because Quality Matters.</h1>
+                <a class="btn btn-primary" href="/en/services/" role="button">Learn More</a>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="carousel-caption contrast">
+                <h1>We are<br/>Salesforce Commerce Cloud Partner.</h1>
+                <a class="btn btn-primary" href="/en/services/salesforce-commerce-cloud.html" role="button">Learn More</a>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="carousel-caption contrast">
+                <h1>XLT - The Open Source Performance Test Tool.</h1>
+                <a class="btn btn-primary" href="/en/xlt/download.html" role="button">Download</a>
+            </div>
+        </div>
+    </div>
+
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="fa fa-chevron-left"></span></a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="fa fa-chevron-right"></span></a>
+
+</div><!-- /.carousel -->
+
+            </div>
+        </header>
+
+        <div id="main">
+            <div id="service-areas">
+    <div class="row">
+        <div class="container">
+            <div class="text-center landing-intro col-md-offset-1 col-md-10">
+                <h1>Committed to Software Quality</h1>
+                <p class="lead">We help our clients optimize software testing and quality assurance</p>
+            </div>
+        </div>
+    </div>
+
+     <div class="row">
+        <div class="container">
+            <div class="col-sm-6 col-md-6">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <a class="icon" href="/en/services/#functional-testing">
+                            <i class="fa fa-eye fa-3x"></i>
+                            <h2>Manual &amp; Automated Testing</h2>
+                        </a>
+                        <p class="explanation">
+                            We test your product based on individual requirements, with an ideal mix of manual and automated testing.
+                        </p>
+                        <a href="/en/services/#functional-testing" class="more">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-6">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <a class="icon" href="/en/services/#performance-testing">
+                            <i class="fa fa-tachometer fa-3x"></i>
+                            <h2>Load &amp; Performance Testing</h2>
+                        </a>
+                        <p class="explanation">
+                            We simulate the traffic you expect on your platform and deliver detailed test reports whether it is a web-based or API-based test. Find out how your site really performs on server and client side.
+                        </p>
+                        <a href="/en/services/#performance-testing" class="more">Learn More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add the extra clearfix for only the required viewport -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="col-sm-6 col-md-6">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <a class="icon" href="/en/services/#test-guidance">
+                            <i class="fa fa-compass fa-3x"></i>
+                            <h2>Test Guidance &amp; Support</h2>
+                        </a>
+                        <p class="explanation">
+                            We love to share our knowledge and can help you establish or improve your own quality assurance processes. Let us inspire you to test better!
+                        </p>
+                        <a href="/en/services/#test-guidance" class="more">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-6">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <a class="icon" href="/en/xlt/">
+                            <img src="/images/xlt-logo-small.png" id="product-logo" alt="XLT Product logo" title="Xceptance LoadTest"/>
+                            <h2>Our Testing Tool</h2>
+                        </a>
+                        <p class="explanation">
+                            XLT covers all your web performance testing needs. It is extensively used by us and continuously improved. Functional test automation can also be done with XLT and is used when real browser performance testing is needed. XLT is Open Source under Apache License 2.0.
+                        </p>
+                        <a href="/en/xlt/" class="more">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="xlt-background">
+    <div class="container">
+        <div class="col-sm-9">
+            <p class="lead">Welcome to Xceptance!<br/>Get to know us. <a class="btn btn-primary" href="/en/company/">This way <i class="fa fa-chevron-right"></i></a></p>
+
+        </div>
+    </div>
+</div>
+
+        </div>
+
+        <footer>
+            <div class="row" id="footer-information">
+    <div class="container">
+        <div id="addresses">
+            <div class="col-sm-4 col-md-3">
+                <div class="footer-contact">
+                <h3>Jena, Germany <span class="meta">Headquarters</span></h3>
+                <div class="vcard">
+                    <div class="fn org">Xceptance GmbH</div>
+                    <div class="email"><i class="fa fa-envelope fa-fw"></i> kontakt@xceptance.de</div>
+                    <div class="tel"><i class="fa fa-phone fa-fw"></i> <span class="type">work</span>+49-3641-376300</div>
+                    <div class="note">Headquarters and European Subsidiary</div>
+                </div>
+                </div>
+                <div class="footer-contact">
+                <h3>Cambridge, MA, USA</h3>
+                <div class="vcard">
+                    <div class="fn org">Xceptance Inc.</div>
+                    <div class="email"><i class="fa fa-envelope fa-fw"></i> contact@xceptance.com</div>
+                    <div class="tel"><i class="fa fa-phone fa-fw"></i> <span class="type">work</span>+1-617-225-4335</div>
+                    <div class="note">North American Subsidiary</div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-2 col-md-2 col-md-offset-1">
+            <ul>
+                <li><a href="/en/company/">About Us</a></li>
+                <li><a href="/en/contact/">Contact</a></li>
+                <li><a href="/en/services/">Services</a></li>
+                <li><a href="/en/xlt/">XLT</a></li>
+                <li><a href="/en/company/references.html">References</a></li>
+                <li><a href="/en/contact/privacy.html">Privacy</a></li>
+            </ul>
+        </div>
+        <div class="col-xs-6 col-sm-2 col-md-2">
+            <ul>
+                <li><a href="https://blog.xceptance.com/"><i class="fa fa-pencil fa-fw"></i>Blog</a></li>
+                <li><a href="https://www.xing.com/companies/xceptancesoftwaretechnologiesgmbh"><i class="fa fa-xing fa-fw"></i>Xing</a></li>
+                <li><a href="https://www.linkedin.com/company/xceptance"><i class="fa fa-linkedin fa-fw"></i>LinkedIn</a></li>
+                <li><a href="https://twitter.com/Xceptance"><i class="fa fa-twitter fa-fw"></i>Twitter</a></li>
+                <li><a href="https://github.com/Xceptance/"><i class="fa fa-github fa-fw"></i>GitHub</a></li>
+            </ul>
+        </div>
+        <div class="clearfix visible-xs"></div>
+        <div class="col-sm-4 col-md-4" id="news-section">
+            <h3>Latest News</h3>
+
+
+            <p class="meta newsdate">19 September 2023</p>
+            <p><a href="/en/news/2023/09/19/news-57-donation-wandlungswelten.html">Donation to Wandlungswelten</a></p>
+
+            <p class="meta newsdate">July 26, 2023</p>
+            <p><a href="/en/news/2023/07/26/news-56-fsu-sommerfest-2023.html">The University Summer Festival</a></p>
+
+            <p class="meta newsdate">February 13, 2023</p>
+            <p><a href="/en/news/2023/02/14/news-55-xceptance-unterstuetzt-jugend-forscht.html">Xceptance sparks great ideas</a></p>
+
+        </div>
+    </div>
+</div>
+
+<div class="row" id="copyright">
+    <div class="container">
+        <div class="col-md-12">
+            <p><a href="/en/#page" class="pull-right visible-xs-inline"><i class="fa fa-chevron-up fa-fw"></i>Top</a>
+            &copy; Copyright Xceptance 2015-2022</p>
+        </div>
+    </div>
+</div>
+
+<!-- just a little JS to switch prices -->
+<script type="text/javascript">
+    function showEURPrices() {
+        $('.EUR-price').show();
+        $('.USD-price').hide();
+    }
+    function showUSDPrices() {
+        $('.USD-price').show();
+        $('.EUR-price').hide();
+    }
+</script>
+
+        </footer>
+
+        <!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["trackPageView"]);
+  _paq.push(["enableLinkTracking"]);
+
+  function reportAnalytics() {
+        // sent this only, if the user did not opt-out and he has seen the privacy message once at least
+        if ( ($.cookie('privacy-ack-displayed') == 'true') && ($.cookie('privacy') == undefined) ) {
+            var u="//stats.xceptance.com/";
+            _paq.push(["setTrackerUrl", u+"piwik.php"]);
+            _paq.push(["setSiteId", "2"]);
+            var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+            g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+        }
+  };
+  reportAnalytics();
+</script>
+<!-- End Piwik Code -->
+
+<script type="text/javascript">
+    // display the privacy message when not yet displayed, store this fact in a cookie
+    // if DNT is set, do not do anything, because we auto-disable tracking based on the
+    // users wish
+    var isDNT = navigator.doNotTrack == "yes" || navigator.doNotTrack == "1" || navigator.msDoNotTrack == "1";
+
+    if ($.cookie('privacy-ack-displayed') == undefined && !isDNT) {
+        $('#privacy-message').show();
+        $.cookie('privacy-ack-displayed', 'true', { expires: 7, path: '/en' });
+    }
+</script>
+
+    </body>
+</html>
