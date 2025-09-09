@@ -67,14 +67,14 @@ import org.xml.sax.SAXException;
 @Warmup(iterations = 5, time = 3, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 3, time = 5, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
-public class HtmlParser_v380_Benchmark {
+public class HtmlParserBenchmark {
     private static final String simpleFile = "src/test/resources/org/htmlunit/cyberneko/benchmark/simple.html";
     private static final String smallFile = "src/test/resources/org/htmlunit/cyberneko/benchmark/small-xc-homepage.html";
     private static final String mediumFile = "src/test/resources/org/htmlunit/cyberneko/benchmark/wikipedia-de-hp.html";
     private static final String largeFile = "src/test/resources/org/htmlunit/cyberneko/benchmark/puma-de-hp.html";
 
-    @Param({simpleFile, smallFile, mediumFile, largeFile})
-    String file = mediumFile;
+    //@Param({simpleFile, smallFile, mediumFile, largeFile})
+    String file = largeFile;
 
     @Setup
     public void setup(BenchmarkParams params) throws IOException {
@@ -114,7 +114,7 @@ public class HtmlParser_v380_Benchmark {
     {
         Options opt = new OptionsBuilder()
                 // important, otherwise we will run all tests!
-                .include(HtmlParser_v380_Benchmark.class.getSimpleName() + ".domParser")
+                .include(HtmlParserBenchmark.class.getSimpleName() + ".domParser")
                 // 0 is needed for debugging, not for running
                 .forks(0)
                 .build();
