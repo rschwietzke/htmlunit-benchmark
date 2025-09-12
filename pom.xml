@@ -68,18 +68,18 @@ THE POSSIBILITY OF SUCH DAMAGE.
 		    <groupId>org.htmlunit</groupId>
 		    <artifactId>htmlunit</artifactId>
 		    <version>4.16.0</version>
-		    <!--<exclusions>
+		    <exclusions>
                 <exclusion>
                     <groupId>org.htmlunit</groupId>
                     <artifactId>neko-htmlunit</artifactId>
                 </exclusion>
-            </exclusions>-->
+            </exclusions>
 		</dependency>
-        <!--<dependency>
+        <dependency>
             <groupId>org.htmlunit</groupId>
             <artifactId>neko-htmlunit</artifactId>
-            <version>4.14.0</version>
-        </dependency>-->
+            <version>4.16.0</version>
+        </dependency>
     </dependencies>
 
     <properties>
