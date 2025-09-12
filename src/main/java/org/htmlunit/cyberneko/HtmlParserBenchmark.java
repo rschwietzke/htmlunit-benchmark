@@ -73,8 +73,8 @@ public class HtmlParserBenchmark {
     private static final String mediumFile = "src/test/resources/org/htmlunit/cyberneko/benchmark/wikipedia-de-hp.html";
     private static final String largeFile = "src/test/resources/org/htmlunit/cyberneko/benchmark/puma-de-hp.html";
 
-    //@Param({simpleFile, smallFile, mediumFile, largeFile})
-    String file = largeFile;
+    @Param({simpleFile, smallFile, mediumFile, largeFile})
+    String file;
 
     @Setup
     public void setup(BenchmarkParams params) throws IOException {
