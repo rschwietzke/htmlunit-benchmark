@@ -68,15 +68,18 @@ public class HTMLELementsBenchmark {
     private static final String largeFile = "src/test/resources/org/htmlunit/cyberneko/benchmark/puma-de-hp.html";
 
     private List<String> tagNames = new ArrayList<>(1000);
-    
+
     @Param({simpleFile, smallFile, mediumFile, largeFile})
     String file;
-    
+
     // our HTMLElements for testing
     org.htmlunit.cyberneko.htmlelements.old416.HTMLElements htmlElementsOld416 = new org.htmlunit.cyberneko.htmlelements.old416.HTMLElements();
     org.htmlunit.cyberneko.htmlelements.old.HTMLElements htmlElementsOld = new org.htmlunit.cyberneko.htmlelements.old.HTMLElements();
     org.htmlunit.cyberneko.htmlelements.rbrill.HTMLElements htmlElementsNew = new org.htmlunit.cyberneko.htmlelements.rbrill.HTMLElements();
     org.htmlunit.cyberneko.htmlelements.uncached.HTMLElements htmlElementsUncached = new org.htmlunit.cyberneko.htmlelements.uncached.HTMLElements();
+    org.htmlunit.cyberneko.htmlelements.new417.HTMLElements.HTMLElementsWithCache htmlElementsNew417 = 
+            new org.htmlunit.cyberneko.htmlelements.new417.HTMLElements.HTMLElementsWithCache(
+                    new org.htmlunit.cyberneko.htmlelements.new417.HTMLElements());
 
     @Setup
     public void setup(BenchmarkParams params) throws IOException {
@@ -110,61 +113,72 @@ public class HTMLELementsBenchmark {
                 idx = idx3 + 1;
             }
         });
-        
-//        tagNames.add("foo");
-//        tagNames.add("akjsdf sa");
+
+        //        tagNames.add("foo");
+        //        tagNames.add("akjsdf sa");
 
         // remove !DOCTYPE and empty tags
         tagNames.removeIf(t -> t.length() == 0 || t.charAt(0) == '!');
-//        System.out.println("Found " + tagNames.size() + " tags in " + file);
-//        tagNames.stream().forEach(System.out::println);
-        
+        //        System.out.println("Found " + tagNames.size() + " tags in " + file);
+        //        tagNames.stream().forEach(System.out::println);
+
     }
 
     @Benchmark
     public org.htmlunit.cyberneko.htmlelements.old416.HTMLElements.Element old416HTMLElements() {
         org.htmlunit.cyberneko.htmlelements.old416.HTMLElements.Element last = null;
-        
+
         for (final String tagName : tagNames) {
             last = htmlElementsOld416.getElement(tagName);
         }
-        
+
         return last;
     }
-    
+
     @Benchmark
     public org.htmlunit.cyberneko.htmlelements.old.HTMLElements.Element oldHTMLElements() {
         org.htmlunit.cyberneko.htmlelements.old.HTMLElements.Element last = null;
-        
+
         for (final String tagName : tagNames) {
             last = htmlElementsOld.getElement(tagName);
         }
-        
+
         return last;
     }
 
     @Benchmark
     public org.htmlunit.cyberneko.htmlelements.rbrill.HTMLElements.Element newHTMLElements() {
         org.htmlunit.cyberneko.htmlelements.rbrill.HTMLElements.Element last = null;
-        
+
         for (final String tagName : tagNames) {
             last = htmlElementsNew.getElement(tagName);
         }
-        
+
+        return last;
+    }
+
+    @Benchmark
+    public org.htmlunit.cyberneko.htmlelements.uncached.HTMLElements.Element uncachedHTMLElements() {
+        org.htmlunit.cyberneko.htmlelements.uncached.HTMLElements.Element last = null;
+
+        for (final String tagName : tagNames) {
+            last = htmlElementsUncached.getElement(tagName);
+        }
+
         return last;
     }
     
     @Benchmark
-    public org.htmlunit.cyberneko.htmlelements.uncached.HTMLElements.Element uncachedHTMLElements() {
-        org.htmlunit.cyberneko.htmlelements.uncached.HTMLElements.Element last = null;
-        
+    public org.htmlunit.cyberneko.htmlelements.new417.HTMLElements.Element new417HTMLElements() {
+        org.htmlunit.cyberneko.htmlelements.new417.HTMLElements.Element last = null;
+
         for (final String tagName : tagNames) {
-            last = htmlElementsUncached.getElement(tagName);
+            last = htmlElementsNew417.getElement(tagName);
         }
-        
+
         return last;
     }
-    
+
     public static void main(String[] args) throws RunnerException
     {
         Options opt = new OptionsBuilder()
