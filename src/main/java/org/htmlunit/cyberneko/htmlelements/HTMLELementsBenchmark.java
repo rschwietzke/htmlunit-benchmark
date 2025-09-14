@@ -80,7 +80,9 @@ public class HTMLELementsBenchmark {
     org.htmlunit.cyberneko.htmlelements.new417.HTMLElements.HTMLElementsWithCache htmlElementsNew417 = 
             new org.htmlunit.cyberneko.htmlelements.new417.HTMLElements.HTMLElementsWithCache(
                     new org.htmlunit.cyberneko.htmlelements.new417.HTMLElements());
-
+    org.htmlunit.cyberneko.htmlelements.new417_2.HTMLElements.HTMLElementsWithCache htmlElementsNew417_2 = 
+            new org.htmlunit.cyberneko.htmlelements.new417_2.HTMLElements.HTMLElementsWithCache(
+                    new org.htmlunit.cyberneko.htmlelements.new417_2.HTMLElements());
     @Setup
     public void setup(BenchmarkParams params) throws IOException {
         // extract all tag names in a cheap way, good enough for our purpose
@@ -174,6 +176,17 @@ public class HTMLELementsBenchmark {
 
         for (final String tagName : tagNames) {
             last = htmlElementsNew417.getElement(tagName);
+        }
+
+        return last;
+    }
+    
+    @Benchmark
+    public org.htmlunit.cyberneko.htmlelements.new417_2.HTMLElements.Element new417_2HTMLElements() {
+        org.htmlunit.cyberneko.htmlelements.new417_2.HTMLElements.Element last = null;
+
+        for (final String tagName : tagNames) {
+            last = htmlElementsNew417_2.getElement(tagName);
         }
 
         return last;
