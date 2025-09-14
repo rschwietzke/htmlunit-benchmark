@@ -29,17 +29,15 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.htmlunit.cyberneko;
+package org.htmlunit.cyberneko.htmlelements;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.htmlunit.cyberneko.html.dom.HTMLDocumentImpl;
-import org.htmlunit.cyberneko.parsers.DOMParser;
-import org.htmlunit.cyberneko.parsers.SAXParser;
-import org.htmlunit.cyberneko.xerces.xni.XNIException;
-import org.htmlunit.cyberneko.xerces.xni.parser.XMLInputSource;
-import org.htmlunit.cyberneko.xerces.xni.parser.XMLParserConfiguration;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
@@ -56,116 +54,98 @@ import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import org.xml.sax.Attributes;
-import org.xml.sax.ContentHandler;
-import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
 
 @State(Scope.Thread)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
-@Warmup(iterations = 5, time = 3, timeUnit = TimeUnit.SECONDS)
-@Measurement(iterations = 3, time = 5, timeUnit = TimeUnit.SECONDS)
+@Warmup(iterations = 3, time = 1, timeUnit = TimeUnit.SECONDS)
+@Measurement(iterations = 2, time = 1, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
-public class HtmlParserBenchmark {
+public class HTMLELementsBenchmark {
     private static final String simpleFile = "src/test/resources/org/htmlunit/cyberneko/benchmark/simple.html";
     private static final String smallFile = "src/test/resources/org/htmlunit/cyberneko/benchmark/small-xc-homepage.html";
     private static final String mediumFile = "src/test/resources/org/htmlunit/cyberneko/benchmark/wikipedia-de-hp.html";
     private static final String largeFile = "src/test/resources/org/htmlunit/cyberneko/benchmark/puma-de-hp.html";
 
-    // @Param({simpleFile, smallFile, mediumFile, largeFile})
-    String file = largeFile;
+    private List<String> tagNames = new ArrayList<>(1000);
+    
+    @Param({simpleFile, smallFile, mediumFile, largeFile})
+    String file = simpleFile;
+    
+    // our HTMLElements for testing
+    org.htmlunit.cyberneko.htmlelements.rschwietzke.HTMLElements htmlElementsOld = new org.htmlunit.cyberneko.htmlelements.rschwietzke.HTMLElements();
+    org.htmlunit.cyberneko.htmlelements.rbrill.HTMLElements htmlElementsNew = new org.htmlunit.cyberneko.htmlelements.rbrill.HTMLElements();
 
     @Setup
     public void setup(BenchmarkParams params) throws IOException {
+        // extract all tag names in a cheap way, good enough for our purpose
+        // AI generated code, might be not perfect
+        Files.readAllLines(Path.of(file)).forEach(line -> {
+            int idx = 0;
+            while (true) {
+                final int idx1 = line.indexOf('<', idx);
+                if (idx1 < 0) {
+                    break;
+                }
+                final int idx2 = line.indexOf(' ', idx1 + 1);
+                final int idx3 = line.indexOf('>', idx1 + 1);
+                if (idx3 < 0) {
+                    break;
+                }
+                final int idx4 = line.indexOf('/', idx1 + 1);
+                int endIdx = idx3;
+                if (idx2 > 0 && idx2 < endIdx) {
+                    endIdx = idx2;
+                }
+                if (idx4 > 0 && idx4 < endIdx) {
+                    endIdx = idx4;
+                }
+                if (endIdx > idx1 + 1) {
+                    // take the tag as found
+                    final String tagName = line.substring(idx1 + 1, endIdx);
+                    tagNames.add(tagName);
+                }
+                idx = idx3 + 1;
+            }
+        });
+        // remove !DOCTYPE and empty tags
+        tagNames.removeIf(t -> t.length() == 0 || t.charAt(0) == '!');
+        System.out.println("Found " + tagNames.size() + " unique tag names in " + file);
+        //tagNames.stream().forEach(System.out::println);
     }
 
     @Benchmark
-    public XMLParserConfiguration simpleParser() throws XNIException, IOException {
-        final XMLParserConfiguration parser = new HTMLConfiguration();
-        parser.parse(new XMLInputSource(null, file, null));
-
-        return parser;
+    public Object oldHTMLElements() {
+        Object last = null;
+        
+        for (final String tagName : tagNames) {
+            last = htmlElementsOld.getElement(tagName);
+        }
+        
+        return last;
     }
 
     @Benchmark
-    public SAXParser saxParser() throws XNIException, IOException {
-        final SAXParser parser = new SAXParser();
-
-        ContentHandler myContentHandler = new MyContentHandler();
-        parser.setContentHandler(myContentHandler);
-
-        parser.parse(new XMLInputSource(null, file, null));
-
-        return parser;
+    public Object newHTMLElements() {
+        Object last = null;
+        
+        for (final String tagName : tagNames) {
+            last = htmlElementsNew.getElement(tagName);
+        }
+        
+        return last;
     }
-
-    @Benchmark
-    public DOMParser domParser() throws XNIException, IOException {
-        final DOMParser parser = new DOMParser(HTMLDocumentImpl.class);
-        XMLInputSource src = new XMLInputSource(null, file, null);
-        src.setEncoding("UTF-8");
-        parser.parse(src);
-
-        return parser;
-    }
-
+    
     public static void main(String[] args) throws RunnerException
     {
         Options opt = new OptionsBuilder()
                 // important, otherwise we will run all tests!
-                .include(HtmlParserBenchmark.class.getSimpleName() + ".domParser")
+                .include(HTMLELementsBenchmark.class.getSimpleName() + ".old")
                 // 0 is needed for debugging, not for running
                 .forks(0)
                 .build();
 
         new Runner(opt).run();
-    }
-
-    private static class MyContentHandler implements ContentHandler {
-        @Override
-        public void startPrefixMapping(final String prefix, final String uri) throws SAXException {
-        }
-
-        @Override
-        public void startElement(final String uri, final String localName, final String qName, final Attributes atts) throws SAXException {
-        }
-
-        @Override
-        public void startDocument() throws SAXException {
-        }
-
-        @Override
-        public void skippedEntity(final String name) throws SAXException {
-        }
-
-        @Override
-        public void setDocumentLocator(final Locator locator) {
-        }
-
-        @Override
-        public void processingInstruction(final String target, final String data) throws SAXException {
-        }
-
-        @Override
-        public void ignorableWhitespace(final char[] ch, final int start, final int length) throws SAXException {
-        }
-
-        @Override
-        public void endPrefixMapping(final String prefix) throws SAXException {
-        }
-
-        @Override
-        public void endElement(final String uri, final String localName, final String qName) throws SAXException {
-        }
-
-        @Override
-        public void endDocument() throws SAXException {
-        }
-
-        @Override
-        public void characters(final char[] ch, final int start, final int length) throws SAXException {
-        }
     }
 }
 
