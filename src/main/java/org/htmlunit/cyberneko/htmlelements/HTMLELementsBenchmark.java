@@ -116,8 +116,8 @@ public class HTMLELementsBenchmark {
 
         // remove !DOCTYPE and empty tags
         tagNames.removeIf(t -> t.length() == 0 || t.charAt(0) == '!');
-        System.out.println("Found " + tagNames.size() + " tags in " + file);
-        tagNames.stream().forEach(System.out::println);
+//        System.out.println("Found " + tagNames.size() + " tags in " + file);
+//        tagNames.stream().forEach(System.out::println);
         
     }
 
@@ -160,9 +160,6 @@ public class HTMLELementsBenchmark {
         
         for (final String tagName : tagNames) {
             last = htmlElementsUncached.getElement(tagName);
-            if (last.code == org.htmlunit.cyberneko.htmlelements.uncached.HTMLElements.UNKNOWN) {
-                System.out.println("Not found: " + tagName);
-            }
         }
         
         return last;
