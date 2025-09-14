@@ -587,7 +587,7 @@ public class HTMLElements implements HTMLElementsProvider {
         // add all together and also get us a second version that is 
         // lowercase only for faster lower case lookups, hence we have twice
         // the size of the map as we need to store both versions
-        elementsByName_ = new FastHashMap<>(2 * maxCode, 0.50f);
+        elementsByName_ = new FastHashMap<>(311, 0.70f);
         
         for (final Element element : elementsByNameForReference_.values()) {
             elementsByName_.put(element.name, element);
@@ -677,7 +677,7 @@ public class HTMLElements implements HTMLElementsProvider {
 
         public HTMLElementsWithCache(final HTMLElements htmlElements) {
             htmlElements_ = htmlElements;
-            unknownElements_ = new FastHashMap<>(11, 0.50f);
+            unknownElements_ = new FastHashMap<>(11, 0.70f);
         }
 
         @Override

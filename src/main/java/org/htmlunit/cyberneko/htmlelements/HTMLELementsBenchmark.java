@@ -115,9 +115,10 @@ public class HTMLELementsBenchmark {
                 idx = idx3 + 1;
             }
         });
-
-        //        tagNames.add("foo");
-        //        tagNames.add("akjsdf sa");
+//        tagNames.clear();
+//        tagNames.add("foo");
+//        tagNames.add("foo");
+//        tagNames.add("akjsdf sa");
 
         // remove !DOCTYPE and empty tags
         tagNames.removeIf(t -> t.length() == 0 || t.charAt(0) == '!');
@@ -169,7 +170,7 @@ public class HTMLELementsBenchmark {
 
         return last;
     }
-    
+
     @Benchmark
     public org.htmlunit.cyberneko.htmlelements.new417.HTMLElements.Element new417HTMLElements() {
         org.htmlunit.cyberneko.htmlelements.new417.HTMLElements.Element last = null;
@@ -180,7 +181,7 @@ public class HTMLELementsBenchmark {
 
         return last;
     }
-    
+
     @Benchmark
     public org.htmlunit.cyberneko.htmlelements.new417_2.HTMLElements.Element new417_2HTMLElements() {
         org.htmlunit.cyberneko.htmlelements.new417_2.HTMLElements.Element last = null;
@@ -196,7 +197,7 @@ public class HTMLELementsBenchmark {
     {
         Options opt = new OptionsBuilder()
                 // important, otherwise we will run all tests!
-                .include(HTMLELementsBenchmark.class.getSimpleName() + ".uncachedHTMLElements")
+                .include(HTMLELementsBenchmark.class.getSimpleName() + ".new417_2HTMLElements")
                 // 0 is needed for debugging, not for running
                 .forks(0)
                 .build();
