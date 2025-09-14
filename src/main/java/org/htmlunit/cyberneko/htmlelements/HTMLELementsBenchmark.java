@@ -70,9 +70,10 @@ public class HTMLELementsBenchmark {
     private List<String> tagNames = new ArrayList<>(1000);
     
     @Param({simpleFile, smallFile, mediumFile, largeFile})
-    String file = simpleFile;
+    String file;
     
     // our HTMLElements for testing
+    org.htmlunit.cyberneko.htmlelements.old416.HTMLElements htmlElementsOld416 = new org.htmlunit.cyberneko.htmlelements.old416.HTMLElements();
     org.htmlunit.cyberneko.htmlelements.old.HTMLElements htmlElementsOld = new org.htmlunit.cyberneko.htmlelements.old.HTMLElements();
     org.htmlunit.cyberneko.htmlelements.rbrill.HTMLElements htmlElementsNew = new org.htmlunit.cyberneko.htmlelements.rbrill.HTMLElements();
     org.htmlunit.cyberneko.htmlelements.uncached.HTMLElements htmlElementsUncached = new org.htmlunit.cyberneko.htmlelements.uncached.HTMLElements();
@@ -109,15 +110,31 @@ public class HTMLELementsBenchmark {
                 idx = idx3 + 1;
             }
         });
+        
+//        tagNames.add("foo");
+//        tagNames.add("akjsdf sa");
+
         // remove !DOCTYPE and empty tags
         tagNames.removeIf(t -> t.length() == 0 || t.charAt(0) == '!');
-        System.out.println("Found " + tagNames.size() + " unique tag names in " + file);
-        //tagNames.stream().forEach(System.out::println);
+        System.out.println("Found " + tagNames.size() + " tags in " + file);
+        tagNames.stream().forEach(System.out::println);
+        
     }
 
     @Benchmark
-    public Object oldHTMLElements() {
-        Object last = null;
+    public org.htmlunit.cyberneko.htmlelements.old416.HTMLElements.Element old416HTMLElements() {
+        org.htmlunit.cyberneko.htmlelements.old416.HTMLElements.Element last = null;
+        
+        for (final String tagName : tagNames) {
+            last = htmlElementsOld416.getElement(tagName);
+        }
+        
+        return last;
+    }
+    
+    @Benchmark
+    public org.htmlunit.cyberneko.htmlelements.old.HTMLElements.Element oldHTMLElements() {
+        org.htmlunit.cyberneko.htmlelements.old.HTMLElements.Element last = null;
         
         for (final String tagName : tagNames) {
             last = htmlElementsOld.getElement(tagName);
@@ -127,8 +144,8 @@ public class HTMLELementsBenchmark {
     }
 
     @Benchmark
-    public Object newHTMLElements() {
-        Object last = null;
+    public org.htmlunit.cyberneko.htmlelements.rbrill.HTMLElements.Element newHTMLElements() {
+        org.htmlunit.cyberneko.htmlelements.rbrill.HTMLElements.Element last = null;
         
         for (final String tagName : tagNames) {
             last = htmlElementsNew.getElement(tagName);
@@ -138,11 +155,14 @@ public class HTMLELementsBenchmark {
     }
     
     @Benchmark
-    public Object uncachedHTMLElements() {
-        Object last = null;
+    public org.htmlunit.cyberneko.htmlelements.uncached.HTMLElements.Element uncachedHTMLElements() {
+        org.htmlunit.cyberneko.htmlelements.uncached.HTMLElements.Element last = null;
         
         for (final String tagName : tagNames) {
             last = htmlElementsUncached.getElement(tagName);
+            if (last.code == org.htmlunit.cyberneko.htmlelements.uncached.HTMLElements.UNKNOWN) {
+                System.out.println("Not found: " + tagName);
+            }
         }
         
         return last;
@@ -152,7 +172,7 @@ public class HTMLELementsBenchmark {
     {
         Options opt = new OptionsBuilder()
                 // important, otherwise we will run all tests!
-                .include(HTMLELementsBenchmark.class.getSimpleName() + ".old")
+                .include(HTMLELementsBenchmark.class.getSimpleName() + ".uncachedHTMLElements")
                 // 0 is needed for debugging, not for running
                 .forks(0)
                 .build();
