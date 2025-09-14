@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.htmlunit.cyberneko.htmlelements.rschwietzke;
+package org.htmlunit.cyberneko.htmlelements.old;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import org.htmlunit.cyberneko.htmlelements.rschwietzke.HTMLElements.Element;
+import org.htmlunit.cyberneko.htmlelements.old.HTMLElements.Element;
 import org.htmlunit.cyberneko.util.FastHashMap;
 
 /**

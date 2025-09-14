@@ -58,8 +58,8 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 @State(Scope.Thread)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
-@Warmup(iterations = 3, time = 1, timeUnit = TimeUnit.SECONDS)
-@Measurement(iterations = 2, time = 1, timeUnit = TimeUnit.SECONDS)
+@Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
+@Measurement(iterations = 3, time = 1, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
 public class HTMLELementsBenchmark {
     private static final String simpleFile = "src/test/resources/org/htmlunit/cyberneko/benchmark/simple.html";
@@ -73,8 +73,9 @@ public class HTMLELementsBenchmark {
     String file = simpleFile;
     
     // our HTMLElements for testing
-    org.htmlunit.cyberneko.htmlelements.rschwietzke.HTMLElements htmlElementsOld = new org.htmlunit.cyberneko.htmlelements.rschwietzke.HTMLElements();
+    org.htmlunit.cyberneko.htmlelements.old.HTMLElements htmlElementsOld = new org.htmlunit.cyberneko.htmlelements.old.HTMLElements();
     org.htmlunit.cyberneko.htmlelements.rbrill.HTMLElements htmlElementsNew = new org.htmlunit.cyberneko.htmlelements.rbrill.HTMLElements();
+    org.htmlunit.cyberneko.htmlelements.uncached.HTMLElements htmlElementsUncached = new org.htmlunit.cyberneko.htmlelements.uncached.HTMLElements();
 
     @Setup
     public void setup(BenchmarkParams params) throws IOException {
@@ -131,6 +132,17 @@ public class HTMLELementsBenchmark {
         
         for (final String tagName : tagNames) {
             last = htmlElementsNew.getElement(tagName);
+        }
+        
+        return last;
+    }
+    
+    @Benchmark
+    public Object uncachedHTMLElements() {
+        Object last = null;
+        
+        for (final String tagName : tagNames) {
+            last = htmlElementsUncached.getElement(tagName);
         }
         
         return last;
